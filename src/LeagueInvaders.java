@@ -19,7 +19,7 @@ public class LeagueInvaders {
 		frame.setSize(new Dimension(WIDTH, HEIGHT));	
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
+		frame.addKeyListener(panel);
 	
 	}
 	
