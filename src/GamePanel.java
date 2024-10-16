@@ -5,12 +5,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener{
-
+	public static BufferedImage image;
+	public static boolean needImage = true;
+	public static boolean gotImage = false;	
+	
+	void loadImage(String imageFile) {
+	    if (needImage) {
+	        try {
+	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+		    gotImage = true;
+	        } catch (Exception e) {
+	            
+	        }
+	        needImage = false;
+	    }
+	}
 	final int MENU = 0;
 	final int GAME = 1;
 	final int END = 2;
@@ -19,18 +35,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 Font subtitleFont;
 Timer frameDraw;
 Rocketship rocketship = new Rocketship(250,700,50,50,10);
+ObjectManager manager = new ObjectManager(rocketship);
 	
 	GamePanel(){
 		 titleFont = new Font("Marker Felt", Font.PLAIN, 50);
 		 subtitleFont = new Font("Arial", Font.PLAIN, 20);
 		    frameDraw = new Timer(1000/60,this);
 		    frameDraw.start();
+		    if (needImage) {
+			    loadImage ("space (1).png");
+			}
 	}
 	
 	 
 	
 	void updateMenuState() {  }
-	void updateGameState() {  }
+	void updateGameState() { 
+		manager.update();
+	}
 	void updateEndState()  {  }
 	
 	void drawMenuState(Graphics g) { 
@@ -44,9 +66,14 @@ Rocketship rocketship = new Rocketship(250,700,50,50,10);
 		g.drawString("Press SPACE for instructions", 100, 500);
 	}
 	void drawGameState(Graphics g) { 
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
-		rocketship.draw(g);
+		 if (gotImage) {
+	        	g.drawImage(image, 0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT, null);
+	        } else {
+	        	g.setColor(Color.BLUE);
+	        	g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
+	        }
+
+		manager.draw(g);
 	}
 	void drawEndState(Graphics g)  { 
 		g.setColor(Color.RED);
