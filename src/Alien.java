@@ -22,7 +22,7 @@ public class Alien extends GameObject {
 	}
 	public Alien(int x, int y, int width, int height, int speed) {
 		super(x, y, width, height, speed);
-		speed = 1;
+		this.speed = speed;
 		if (needImage) {
 		    loadImage ("alien (1).png");
 		}
@@ -30,6 +30,7 @@ public class Alien extends GameObject {
 
 	void update() {
 		y+=speed;
+		  super.update();
 	}
 	void draw(Graphics g) {
 		if (gotImage) {

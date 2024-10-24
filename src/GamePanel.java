@@ -11,10 +11,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class GamePanel extends JPanel implements ActionListener, KeyListener{
+public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;	
+	Timer alienSpawn;
 	
 	void loadImage(String imageFile) {
 	    if (needImage) {
@@ -36,12 +37,19 @@ Font subtitleFont;
 Timer frameDraw;
 Rocketship rocketship = new Rocketship(250,700,50,50,10);
 ObjectManager manager = new ObjectManager(rocketship);
+
+void startGame(){
+	 alienSpawn = new Timer(1000 , manager);
+	    alienSpawn.start();
+}
 	
-	GamePanel(){
+GamePanel(){
 		 titleFont = new Font("Marker Felt", Font.PLAIN, 50);
 		 subtitleFont = new Font("Arial", Font.PLAIN, 20);
 		    frameDraw = new Timer(1000/60,this);
 		    frameDraw.start();
+		    
+		    
 		    if (needImage) {
 			    loadImage ("space (1).png");
 			}
@@ -52,6 +60,10 @@ ObjectManager manager = new ObjectManager(rocketship);
 	void updateMenuState() {  }
 	void updateGameState() { 
 		manager.update();
+		if(rocketship.isActive == false) {
+			currentState  = END;
+		}
+		
 	}
 	void updateEndState()  {  }
 	
@@ -72,8 +84,9 @@ ObjectManager manager = new ObjectManager(rocketship);
 	        	g.setColor(Color.BLUE);
 	        	g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
 	        }
-
+		 
 		manager.draw(g);
+		g.drawString(String.valueOf(manager.getScore()), 10,10);
 	}
 	void drawEndState(Graphics g)  { 
 		g.setColor(Color.RED);
@@ -121,10 +134,18 @@ ObjectManager manager = new ObjectManager(rocketship);
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 		    if (currentState == END) {
-		        currentState = MENU;
+		       rocketship = new Rocketship(250,700,50,50,10);
+		    	manager = new ObjectManager(rocketship);
+		       currentState = MENU;
 		    } else {
-		        currentState++;
-		    }
+		      
+		    	currentState++;
+		    	if(currentState == GAME) {
+		    		startGame();
+		    	} else if (currentState == END) {
+		    		alienSpawn.stop();
+		    	}
+		    } 
 		}   
 		if (e.getKeyCode()==KeyEvent.VK_UP) {
 		   rocketship.up();
@@ -138,6 +159,9 @@ ObjectManager manager = new ObjectManager(rocketship);
 		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
 		   rocketship.right();
 		}
+		if (e.getKeyCode()==KeyEvent.VK_SPACE) {
+			manager.addProjectile(rocketship.getProjectile());
+			}
 	}
 
 

@@ -21,7 +21,9 @@ public class Rocketship extends GameObject {
 	        needImage = false;
 	    }
 	}
-	
+	public Projectile getProjectile() {
+        return new Projectile(x+width/2, y, 10, 10, 10);
+} 
 	public Rocketship(int x, int y, int width, int height, int speed) {
 		super(x, y, width, height, speed);
 		if (needImage) {
