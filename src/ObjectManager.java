@@ -2,6 +2,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class ObjectManager implements ActionListener {
@@ -73,16 +74,19 @@ public class ObjectManager implements ActionListener {
 	}
 
 	void purgeObjects() {
-		for(Alien a: aliens) { // TODO: change this to use iterators instead of for each loop
-		
-			if (a.isActive == false) {
-				aliens.remove(a);
+		Iterator<Alien> iter = aliens.iterator();
+		while(iter.hasNext()) {
+			Alien a = iter.next();
+			if (!a.isActive) {
+				iter.remove();
 			}
 		}
-		for(Projectile p: projectiles) {
-			
-			if (p.isActive == false) {
-				projectiles.remove(p);
+		
+		Iterator<Projectile> itera = projectiles.iterator();
+		while(itera.hasNext()) {
+			Projectile p = itera.next();
+			if (!p.isActive) {
+				itera.remove();
 			}
 		}
 	}

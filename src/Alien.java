@@ -33,6 +33,7 @@ public class Alien extends GameObject {
 		  super.update();
 	}
 	void draw(Graphics g) {
+		if (isActive) {
 		if (gotImage) {
         	g.drawImage(image, x, y, width, height, null);
         } else {
@@ -40,5 +41,5 @@ public class Alien extends GameObject {
         	g.fillRect(x, y, width, height);
         }
 	}
-	
+	}
 }

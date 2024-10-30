@@ -39,7 +39,7 @@ Rocketship rocketship = new Rocketship(250,700,50,50,10);
 ObjectManager manager = new ObjectManager(rocketship);
 
 void startGame(){
-	 alienSpawn = new Timer(1000 , manager);
+	 alienSpawn = new Timer(100, manager);
 	    alienSpawn.start();
 }
 	
@@ -86,7 +86,9 @@ GamePanel(){
 	        }
 		 
 		manager.draw(g);
+		g.setColor(Color.WHITE);
 		g.drawString(String.valueOf(manager.getScore()), 10,10);
+	
 	}
 	void drawEndState(Graphics g)  { 
 		g.setColor(Color.RED);
@@ -95,7 +97,7 @@ GamePanel(){
 		g.setColor(Color.YELLOW);
 		g.drawString("GAME OVER", 100, 100);
 		g.setFont(subtitleFont);
-		g.drawString("You killed enemies", 100, 300);
+		g.drawString("You killed " + manager.getScore() + " enemies", 100, 300);
 		g.drawString("Press ENTER to restart", 100, 500);
 	}
 	
@@ -123,7 +125,7 @@ GamePanel(){
 		}else if(currentState == END){
 		    updateEndState();
 		}
-		System.out.println("action");
+	
 		repaint();
 		
 	}

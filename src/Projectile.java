@@ -22,7 +22,7 @@ public class Projectile extends GameObject {
 	}
 	public Projectile(int x, int y, int width, int height, int speed) {
 		super(x, y, width, height, speed);
-		speed = 10;
+		speed = 5;
 		if (needImage) {
 		    loadImage ("bullet (1).png");
 		}
