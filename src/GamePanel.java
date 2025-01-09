@@ -39,7 +39,7 @@ Rocketship rocketship = new Rocketship(250,700,50,50,10);
 ObjectManager manager = new ObjectManager(rocketship);
 
 void startGame(){
-	 alienSpawn = new Timer(100, manager);
+	 alienSpawn = new Timer(1000, manager);
 	    alienSpawn.start();
 }
 	
